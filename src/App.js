@@ -3,11 +3,13 @@ import './App.css';
 import { useEffect, useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { NavLink, Route, Router, Routes } from 'react-router-dom';
+import Description from './Description';
 function App() {
   const[list,setlist]=useState([
-    {name:"Game of thrones",rate:5,img:"https://wallpapercave.com/wp/wp4355108.jpg"},
-    {name:" Vikings",rate:4.5,img:"https://www.happy-landing.net/wp-content/uploads/2020/12/Vikings-Valhalla.png"},
-    {name:"Titanic",rate:4,img:"https://www.pixelstalk.net/wp-content/uploads/images1/Titanic-Wallpapers-HD-768x480.jpg"},
+    {name:"Game of thrones",rate:5,img:"https://wallpapercave.com/wp/wp4355108.jpg",desc:"https://www.youtube.com/embed/kxdKxdhKya8?list=PLY1IpuB2HLWj2VpoVGVSct7DUQZ_38EM5"},
+    {name:" Vikings",rate:4.5,img:"https://www.happy-landing.net/wp-content/uploads/2020/12/Vikings-Valhalla.png",desc:"https://www.youtube.com/embed/kxdKxdhKya8?list=PLY1IpuB2HLWj2VpoVGVSct7DUQZ_38EM5"},
+    {name:"Titanic",rate:4,img:"https://www.pixelstalk.net/wp-content/uploads/images1/Titanic-Wallpapers-HD-768x480.jpg",desc:"https://www.youtube.com/embed/kxdKxdhKya8?list=PLY1IpuB2HLWj2VpoVGVSct7DUQZ_38EM5"},
   ])
   const[filtredlist,setfilter]=useState(list)
   useEffect(()=>{
@@ -49,8 +51,11 @@ function App() {
     <input type={"text"} placeholder="enter your search" ref={search} onChange={filtrer} ></input>
     <button onClick={add}>add</button>
     <br></br>
-    <div style={{display:"flex",flexWrap:"wrap",gap:"10px",padding:"20px   "}}>
-    {filtredlist.map(e=>
+    <Routes>
+       <Route path='/' element={<>
+        <div style={{display:"flex",flexWrap:"wrap",gap:"10px",padding:"20px   "}}>
+    {filtredlist.map((e,index)=>
+    <NavLink to={index.toString()}>
        <Card style={{ width: '18rem' }}>
        <Card.Img variant="top" src={e.img} />
        <Card.Body>
@@ -60,9 +65,16 @@ function App() {
          </Card.Text>
          <Button variant="primary">Go somewhere</Button>
        </Card.Body>
-     </Card>)}
+     </Card>
+     </NavLink>)}
+     
 
     </div>
+       </>}></Route>
+    
+    
+      <Route path={"/:id"} element={<Description movies={list}></Description>}></Route>
+    </Routes>
 
     </>
 
